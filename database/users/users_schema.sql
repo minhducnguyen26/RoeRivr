@@ -4,8 +4,7 @@ CREATE TABLE users (
     last_name TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL,
-    address TEXT NOT NULL,
-    account_type TEXT NOT NULL
+    address TEXT NOT NULL
 );
 
 CREATE TABLE user_orders (

@@ -6,9 +6,19 @@ new_products_db:
 sqlite3_products_db:
 	sqlite3 ./database/products/products.db
 
-# Transfer the data from the csv file to the database
-transfer:
+transfer_producst_db:
 	python3 ./database/products/transfer_data.py
+
+#! Sellers Database
+new_sellers_db:
+	rm ./database/sellers/sellers.db
+	sqlite3 ./database/sellers/sellers.db < ./database/sellers/sellers_schema.sql
+
+sqlite3_sellers_db:
+	sqlite3 ./database/sellers/sellers.db
+
+transfer_sellers_db:
+	python3 ./database/sellers/transfer_data.py
 
 #! Users Database
 new_users_db:
@@ -17,6 +27,9 @@ new_users_db:
 
 sqlite3_users_db:
 	sqlite3 ./database/users/users.db
+
+transfer_users_db:
+	python3 ./database/users/transfer_data.py
 
 #! Run the server
 run_server:
