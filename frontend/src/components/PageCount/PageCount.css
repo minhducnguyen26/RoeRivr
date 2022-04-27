@@ -1,0 +1,67 @@
+.PageCount {
+    display: flex;
+    justify-content: end;
+    margin: 20px;
+}
+
+.SinglePageNumberWrapper {
+    border: 1px solid;
+    border-radius: 15%;
+    margin: 0 5px;
+    padding: 10px;
+    cursor: pointer;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.DotsWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin: 0 5px;
+}
+
+.CurrentPage {
+    background-color: var(--orange);
+    border: 1px solid var(--orange);
+    border-radius: 15%;
+    margin: 0 5px;
+    padding: 10px;
+    cursor: pointer;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.PageSearch {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.PageSearch > input {
+    width: 65px;
+    font-size: 15px;
+    padding: 5px;
+}
+
+.SearchButton {
+    background-color: var(--grey);
+    color: var(--white);
+    height: 80%;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 15%;
+    padding: 0 15px;
+    cursor: pointer;
+}

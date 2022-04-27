@@ -1,0 +1,49 @@
+.Products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.SingleProductWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.ProductImage {
+    overflow: hidden;
+    height: 160px;
+    display: flex;
+    align-items: center;
+}
+
+.ProductImage > img {
+    width: 150px;
+}
+
+.ProductName {
+    padding: 10px 30px;
+    line-height: 1.6rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-height: 4.2rem;
+    color: var(--blue);
+}
+
+.ProductRating {
+    margin: 2px 0 10px;
+    display: flex;
+    width: 75%;
+}
+
+.ProductPrice {
+    color: var(--red);
+    display: flex;
+    width: 75%;
+}

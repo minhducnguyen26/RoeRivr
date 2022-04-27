@@ -37,8 +37,6 @@ class ProductsDB:
         data = [limit, offset]
         self.cursor.execute('''
             SELECT * FROM products
-            JOIN product_url_links
-                ON product_url_links.product_id = products.product_id
             LIMIT ?
             OFFSET ?
         ''', data)
@@ -49,17 +47,31 @@ class ProductsDB:
     def get_product_by_id(self, product_id):
         data = [product_id]
 
+        # Check if product is a best seller
         self.cursor.execute('''
             SELECT * FROM products
-            JOIN product_details
-                ON product_details.product_id = products.product_id
-            JOIN product_url_links
-                ON product_url_links.product_id = products.product_id
-            WHERE products.product_id = ?
+            WHERE product_id = ?
         ''', data)
+        is_best_seller = self.cursor.fetchone()["is_best_seller"]
 
-        product = self.cursor.fetchone()
-        return product
+        if is_best_seller == 0:
+            self.cursor.execute('''
+                SELECT * FROM products
+                JOIN product_details
+                    ON product_details.product_id = products.product_id
+                WHERE products.product_id = ?
+            ''', data)
+            product = self.cursor.fetchone()
+            return product
+        else:
+            self.cursor.execute('''
+                SELECT * FROM products
+                JOIN best_sellers_details
+                    ON best_sellers_details.product_id = products.product_id
+                WHERE products.product_id = ?
+            ''', data)
+            product = self.cursor.fetchone()
+            return product
 
     def create_product_by_category_table(self, category):
         # Drop old products_by_category if exists

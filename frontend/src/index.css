@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Varela Round', sans-serif;
+}
+
+:root {
+  --orange: #ff9900;
+  --blue: #146eb4;
+  --black: #000000;
+  --grey: #232f3e;
+  --white: #f2f2f2;
+  --red: #B12704;
+}

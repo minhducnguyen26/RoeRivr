@@ -1,0 +1,49 @@
+
+.NavBar {
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr 1fr;
+    padding: 1rem;
+    background-color: var(--grey);
+    color: var(--white);
+    height: 4.5rem;
+    align-items: center;
+}
+
+.Logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ArrowLogo > img{
+    width: 4rem;
+    transform: scaleY(-1);
+}
+
+.SearchBar {
+    margin-left: 25px;
+}
+
+.SearchBar > input {
+    width: 95%;
+    height: 35px;
+    margin-top: -5px;
+    padding: 10px;
+}
+
+.UserAccount {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.Cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-top: -5px;
+}
