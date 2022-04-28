@@ -2,13 +2,13 @@ import "./PageCount.css";
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { usePageNumberContext } from "../../providers/Provider";
+import { useCurrentPageNumberContext, useTotalPageNumbersContext } from "../../providers/Provider";
 
 function PageCount() {
-	let [pageNumber, setPageNumber] = usePageNumberContext();
+	let [currentPageNumber, setCurrentPageNumber] = useCurrentPageNumberContext();
 
-	if (typeof pageNumber !== "number") {
-		pageNumber = parseInt(pageNumber);
+	if (typeof currentPageNumber !== "number") {
+		currentPageNumber = parseInt(currentPageNumber);
 	}
 
 	const [pageSearch, setPageSearch] = useState(0);
@@ -18,111 +18,113 @@ function PageCount() {
 
 	const handleKeyPress = (e) => {
 		if (e.key === "Enter") {
-			setPageNumber(e.target.value);
+			setCurrentPageNumber(e.target.value);
 		}
 	};
+
+	const totalPageNumbers = useTotalPageNumbersContext();
 
 	return (
 		<div className="PageCount">
 			<div className="PageSearch">
 				<input type="text" placeholder="Search" onChange={handleChange} onKeyPress={handleKeyPress} />
-				<Link to={`/${pageSearch}`} className="SearchButton" onClick={() => setPageNumber(pageSearch)}>
+				<Link to={`/${pageSearch}`} className="SearchButton" onClick={() => setCurrentPageNumber(pageSearch)}>
 					<i className="las la-search"></i>
 				</Link>
 			</div>
 
-			{pageNumber === 1 && (
+			{currentPageNumber === 1 && (
 				<>
-					<Link to={`/${pageNumber}`} className="CurrentPage" onClick={() => setPageNumber(pageNumber)}>
-						{pageNumber}
+					<Link to={`/${currentPageNumber}`} className="CurrentPage" onClick={() => setCurrentPageNumber(currentPageNumber)}>
+						{currentPageNumber}
 					</Link>
-					<Link to={`/${pageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 1)}>
-						{pageNumber + 1}
+					<Link to={`/${currentPageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 1)}>
+						{currentPageNumber + 1}
 					</Link>
-					<Link to={`/${pageNumber + 2}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 2)}>
-						{pageNumber + 2}
+					<Link to={`/${currentPageNumber + 2}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 2)}>
+						{currentPageNumber + 2}
 					</Link>
-					<Link to={`/${pageNumber + 3}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 3)}>
-						{pageNumber + 3}
+					<Link to={`/${currentPageNumber + 3}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 3)}>
+						{currentPageNumber + 3}
 					</Link>
 				</>
 			)}
 
-			{pageNumber === 2 && (
+			{currentPageNumber === 2 && (
 				<>
-					<Link to={`/${pageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber - 1)}>
-						{pageNumber - 1}
+					<Link to={`/${currentPageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber - 1)}>
+						{currentPageNumber - 1}
 					</Link>
-					<Link to={`/${pageNumber}`} className="CurrentPage" onClick={() => setPageNumber(pageNumber)}>
-						{pageNumber}
+					<Link to={`/${currentPageNumber}`} className="CurrentPage" onClick={() => setCurrentPageNumber(currentPageNumber)}>
+						{currentPageNumber}
 					</Link>
-					<Link to={`/${pageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 1)}>
-						{pageNumber + 1}
+					<Link to={`/${currentPageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 1)}>
+						{currentPageNumber + 1}
 					</Link>
-					<Link to={`/${pageNumber + 2}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 2)}>
-						{pageNumber + 2}
+					<Link to={`/${currentPageNumber + 2}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 2)}>
+						{currentPageNumber + 2}
 					</Link>
 				</>
 			)}
 
-			{pageNumber > 2 && pageNumber < 400 && (
+			{currentPageNumber > 2 && currentPageNumber < 400 && (
 				<>
-					<Link to={`/`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(1)}>
+					<Link to={`/`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(1)}>
 						1
 					</Link>
 					<div className="DotsWrapper">...</div>
-					<Link to={`/${pageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber - 1)}>
-						{pageNumber - 1}
+					<Link to={`/${currentPageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber - 1)}>
+						{currentPageNumber - 1}
 					</Link>
-					<Link to={`/${pageNumber}`} className="CurrentPage" onClick={() => setPageNumber(pageNumber)}>
-						{pageNumber}
+					<Link to={`/${currentPageNumber}`} className="CurrentPage" onClick={() => setCurrentPageNumber(currentPageNumber)}>
+						{currentPageNumber}
 					</Link>
-					<Link to={`/${pageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 1)}>
-						{pageNumber + 1}
+					<Link to={`/${currentPageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 1)}>
+						{currentPageNumber + 1}
 					</Link>
 				</>
 			)}
 
-			{pageNumber === 400 && (
+			{currentPageNumber === 400 && (
 				<>
-					<Link to={`/`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(1)}>
+					<Link to={`/`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(1)}>
 						1
 					</Link>
 					<div className="DotsWrapper">...</div>
-					<Link to={`/${pageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber - 1)}>
-						{pageNumber - 1}
+					<Link to={`/${currentPageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber - 1)}>
+						{currentPageNumber - 1}
 					</Link>
-					<Link to={`/${pageNumber}`} className="CurrentPage" onClick={() => setPageNumber(pageNumber)}>
-						{pageNumber}
+					<Link to={`/${currentPageNumber}`} className="CurrentPage" onClick={() => setCurrentPageNumber(currentPageNumber)}>
+						{currentPageNumber}
 					</Link>
-					<Link to={`/${pageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber + 1)}>
-						{pageNumber + 1}
+					<Link to={`/${currentPageNumber + 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber + 1)}>
+						{currentPageNumber + 1}
 					</Link>
 				</>
 			)}
 
-			{pageNumber === 401 && (
+			{currentPageNumber === 401 && (
 				<>
-					<Link to={`/`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(1)}>
+					<Link to={`/`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(1)}>
 						1
 					</Link>
 					<div className="DotsWrapper">...</div>
-					<Link to={`/${pageNumber - 2}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber - 2)}>
-						{pageNumber - 2}
+					<Link to={`/${currentPageNumber - 2}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber - 2)}>
+						{currentPageNumber - 2}
 					</Link>
-					<Link to={`/${pageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(pageNumber - 1)}>
-						{pageNumber - 1}
+					<Link to={`/${currentPageNumber - 1}`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(currentPageNumber - 1)}>
+						{currentPageNumber - 1}
 					</Link>
-					<Link to={`/${pageNumber}`} className="CurrentPage" onClick={() => setPageNumber(pageNumber)}>
-						{pageNumber}
+					<Link to={`/${currentPageNumber}`} className="CurrentPage" onClick={() => setCurrentPageNumber(currentPageNumber)}>
+						{currentPageNumber}
 					</Link>
 				</>
 			)}
 
-			{pageNumber < 399 && <div className="DotsWrapper">...</div>}
+			{currentPageNumber < 399 && <div className="DotsWrapper">...</div>}
 
-			{pageNumber < 400 && (
-				<Link to={`/401`} className="SinglePageNumberWrapper" onClick={() => setPageNumber(401)}>
+			{currentPageNumber < 400 && (
+				<Link to={`/401`} className="SinglePageNumberWrapper" onClick={() => setCurrentPageNumber(401)}>
 					401
 				</Link>
 			)}

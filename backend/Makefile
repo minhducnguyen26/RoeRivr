@@ -1,3 +1,6 @@
+all:
+	@echo Pick an option from Makefile
+
 #! Products Database
 new_products_db:
 	rm ./database/products/products.db

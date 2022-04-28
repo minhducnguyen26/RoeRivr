@@ -1,7 +1,7 @@
 import "./Menu.css";
 
 import { Link } from "react-router-dom";
-import { useCategoryContext } from "../../providers/Provider";
+import { useCategoryContext, useSelectedCategoryContext } from "../../providers/Provider";
 import { ratings } from "../../assets/RatingData";
 
 function Menu() {
@@ -18,12 +18,18 @@ function Menu() {
 		}
 	});
 
+	const selectedCategory = useSelectedCategoryContext();
+	const handleSelectCategory = (category) => {
+		const category_name = category.split(" ")[0];
+		selectedCategory(category_name);
+	};
+
 	return (
 		<div className="Menu">
 			<div className="SectionWrapper">
 				<div className="SectionTitle">Categories:</div>
 				{categoriesList.map((category) => (
-					<Link to={`/category/${category}`} className="Category" key={category}>
+					<Link to={`/categories/${category}`} className="Category" key={category} onClick={() => handleSelectCategory(category)}>
 						{category}
 					</Link>
 				))}

@@ -2,7 +2,7 @@ import { ratings } from "../assets/RatingData";
 
 export const getDisplayPrice = (price) => {
 	const prefix = typeof price === "number" ? "$" : "";
-	price = price > 15 ? "19.99" : price;
+	price = price.length > 15 ? "19.99" : price;
 
 	return prefix ? "$" + price : price;
 };

@@ -23,10 +23,13 @@ class ProductsDB:
 
     def update_page_numbers(self, table_name):
         self.cursor.execute('''
-            SELECT COUNT(*) FROM {}
+            SELECT COUNT(*)
+            AS total_products
+            FROM {}
         '''.format(table_name))
 
-        self.page_numbers = self.cursor.fetchone()["COUNT(*)"]
+        total_products = self.cursor.fetchone()["total_products"]
+        return int(total_products / 50) + 1
 
     def get_page_numbers(self):
         return self.page_numbers
@@ -84,12 +87,14 @@ class ProductsDB:
             CREATE TEMPORARY TABLE products_by_category AS
             SELECT *
             FROM products
-            WHERE category = ?
-        ''', [category])
+            WHERE category LIKE '%{}%'
+        '''.format(category))
 
-        self.update_page_numbers("products_by_category")
+        self.page_numbers = self.update_page_numbers("products_by_category")
 
-    def get_all_products_by_category_on_page(self, page_number):
+    def get_all_products_by_category_on_page(self, category, page_number):
+        self.create_product_by_category_table(category)
+
         limit, offset = self.get_limit_and_offset(page_number)
         data = [limit, offset]
 
@@ -123,6 +128,8 @@ class ProductsDB:
                 OFFSET ?
             '''.format(price_order), data)
 
+        self.page_numbers = self.update_page_numbers(table_name)
+
         products = self.cursor.fetchall()
         return products
     
@@ -145,6 +152,8 @@ class ProductsDB:
                 LIMIT ?
                 OFFSET ?
             ''', data)
+
+        self.page_numbers = self.update_page_numbers(table_name)
 
         products = self.cursor.fetchall()
         return products

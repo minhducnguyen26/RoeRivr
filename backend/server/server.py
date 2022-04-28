@@ -28,6 +28,17 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         categories = db.get_all_categories()
         self.handle_GET_response(categories)
 
+    def handle_get_all_products_by_category_on_page(self, category, page_number):
+        db = ProductsDB()
+        products = db.get_all_products_by_category_on_page(category, page_number)
+        self.handle_GET_response(products)
+
+    #! Page Number
+    def handle_get_page_numbers_for_current_data(self):
+        db = ProductsDB()
+        page_numbers = db.get_page_numbers()
+        self.handle_GET_response(page_numbers)
+
     def do_GET(self):
         print("The request path is:", self.path)
 
@@ -55,6 +66,22 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             # "/categories"
             if len(path_parts) == 2:
                 self.handle_get_all_categories()
+
+            # "/categories/<category>"
+            elif len(path_parts) == 3:
+                category = path_parts[2]
+                self.handle_get_all_products_by_category_on_page(category, 1)
+
+            # "/categories/<category>/<page_number>"
+            elif len(path_parts) == 4:
+                category = path_parts[2]
+                page_number = path_parts[3]
+                self.handle_get_all_products_by_category_on_page(category, page_number)
+
+        #! Page Number
+        elif route == "page_numbers":
+            # "/page_numbers"
+            self.handle_get_page_numbers_for_current_data()
 
     def handle_GET_response(self, response):
         if response != None:
