@@ -14,36 +14,41 @@
     color: var(--black);
 }
 
-.ProductImage {
+.SingleProductImage {
     overflow: hidden;
     height: 160px;
     display: flex;
     align-items: center;
 }
 
-.ProductImage > img {
+.SingleProductImage > img {
     width: 150px;
 }
 
-.ProductName {
+.SingleProductName {
     padding: 10px 30px;
     line-height: 1.6rem;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    max-height: 4.2rem;
+    max-height: 4.1rem;
     color: var(--blue);
 }
 
-.ProductRating {
+.SingleProductRating {
     margin: 2px 0 10px;
     display: flex;
     width: 75%;
 }
 
-.ProductPrice {
+.SingleProductPrice {
     color: var(--red);
     display: flex;
     width: 75%;
+}
+
+.SingleProductRatingImage{
+    width: 100px;
+    margin-left: -3px;
 }

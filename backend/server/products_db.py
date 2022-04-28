@@ -82,18 +82,9 @@ class ProductsDB:
         # Create new products_by_category for the new category
         self.cursor.execute('''
             CREATE TEMPORARY TABLE products_by_category AS
-            SELECT 
-                products.product_id AS product_id,
-                products.name AS product_name,
-                products.category AS category,
-                products.selling_price AS selling_price,
-                products.rating AS rating,
-                product_url_links.image_url AS image_url,
-                product_url_links.product_url AS product_url
+            SELECT *
             FROM products
-            JOIN product_url_links
-                ON product_url_links.product_id = products.product_id
-            WHERE products.category = ?
+            WHERE category = ?
         ''', [category])
 
         self.update_page_numbers("products_by_category")
@@ -119,9 +110,7 @@ class ProductsDB:
         if table_name == "products":
             self.cursor.execute('''
                 SELECT * FROM products
-                JOIN product_url_links
-                    ON product_url_links.product_id = products.product_id
-                ORDER BY selling_price {}
+                ORDER BY price {}
                 LIMIT ?
                 OFFSET ?
             '''.format(price_order), data)
@@ -129,7 +118,7 @@ class ProductsDB:
         elif table_name == "products_by_category":  
             self.cursor.execute('''
                 SELECT * FROM products_by_category
-                ORDER BY selling_price {}
+                ORDER BY price {}
                 LIMIT ?
                 OFFSET ?
             '''.format(price_order), data)
@@ -144,9 +133,7 @@ class ProductsDB:
         if table_name == "products":
             self.cursor.execute('''
                 SELECT * FROM products
-                JOIN product_url_links
-                    ON product_url_links.product_id = products.product_id
-                WHERE products.rating >= ?
+                WHERE rating >= ?
                 LIMIT ?
                 OFFSET ?
             ''', data)
@@ -169,11 +156,3 @@ class ProductsDB:
 
         categories = self.cursor.fetchall()
         return categories
-
-    def get_all_ratings(self):
-        self.cursor.execute('''
-            SELECT DISTINCT rating FROM products
-        ''')
-
-        ratings = self.cursor.fetchall()
-        return ratings

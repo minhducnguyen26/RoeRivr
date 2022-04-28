@@ -1,0 +1,87 @@
+.ProductBodyWrapper {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+}
+
+.ProductImage {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+.ProductImage > img {
+    max-width: 70%;
+    margin-top: 50px;
+}
+
+.ProductInfosMainWrapper {
+    padding: 20px 70px 20px 0;
+}
+
+.ProductName {
+    font-size: 22px;
+}
+
+.ProductRatingImage {
+    width: 100px;
+    margin: 5px 0;
+}
+
+.ProductPrice {
+    color: var(--red);
+    display: flex;
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+.Separator {
+    width: 100%;
+    height: 1px;
+    background-color: var(--grey);
+    margin: 10px 0 15px;
+}
+
+.PriceAndAddButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.AddButton {
+    border: 1px solid var(--yellow);
+    border-radius: 25px;
+    width: fit-content;
+    padding: 10px 20px;
+    background-color: var(--yellow);
+    color: var(--black);
+    cursor: pointer;
+    margin-top: -20px;
+}
+
+.DetailField {
+    display: grid;
+    grid-template-columns: 2.5fr 7.5fr;
+    margin: 10px 0 0 0;
+}
+
+.DetailField:last-child {
+    margin-bottom: 20px;
+}
+
+.DetailLabel {
+    color: var(--blue);
+}
+
+a.DetailValue {
+    text-decoration: none;
+    color: var(--red);
+}
+
+.DetailValue > i {
+    margin-left: 5px;
+}
+
+.ProductDescription {
+    margin: 10px 0 0 15px;
+}

@@ -15,6 +15,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-decoration: none;
+    color: var(--white);
 }
 
 .ArrowLogo > img{
@@ -46,4 +48,5 @@
     justify-content: center;
     font-size: 40px;
     margin-top: -5px;
+    cursor: pointer;
 }

@@ -11,6 +11,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes("SERVER NOT FOUND.", "utf-8"))
 
+    #! Products
     def handle_get_all_products_on_page(self, page_number):
         db = ProductsDB()
         products = db.get_all_products_on_page(page_number)
@@ -21,12 +22,19 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         product = db.get_product_by_id(product_id)
         self.handle_GET_response(product)
 
+    #! Categories
+    def handle_get_all_categories(self):
+        db = ProductsDB()
+        categories = db.get_all_categories()
+        self.handle_GET_response(categories)
+
     def do_GET(self):
         print("The request path is:", self.path)
 
         path_parts = self.path.split("/")
         route = path_parts[1]
 
+        #! Products
         if route == "products":
             # "/products"
             if len(path_parts) == 2:
@@ -41,8 +49,12 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             elif len(path_parts) == 4:
                 product_id = path_parts[3]
                 self.handle_get_product_by_id(product_id)
-        else:
-            self.handleNotFound()
+
+        #! Categories
+        elif route == "categories":
+            # "/categories"
+            if len(path_parts) == 2:
+                self.handle_get_all_categories()
 
     def handle_GET_response(self, response):
         if response != None:
