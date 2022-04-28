@@ -1,4 +1,4 @@
-There are three datasets in this ./database/datasets/:
+There are three datasets in the directory ./database/datasets/:
 
 -   amazon_dataset.csv
 -   best_sellers_dataset.csv
