@@ -14,7 +14,7 @@
     font-size: 20px;
 }
 
-.Category, .Rating {
+.Category, .Rating, .Price {
     text-decoration: none;
     color: var(--grey);
     margin-top: 5px;
@@ -22,11 +22,15 @@
     margin-left: 10px;
 }
 
-.Category:hover {
+.Category:hover, .Price:hover {
     color: var(--orange);
     cursor: pointer;
 }
 
 .Rating > img {
     width: 100px;
+}
+
+.SelectedCategory {
+    color: var(--orange);
 }

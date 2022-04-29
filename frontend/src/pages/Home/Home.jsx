@@ -7,9 +7,13 @@ import Products from "../../components/Products/Products";
 import PageCount from "../../components/PageCount/PageCount";
 
 import { useLocation } from "react-router-dom";
-import { useCurrentPageNumberContext, useSelectedCategoryContext, useTotalPageNumbersContext } from "../../providers/Provider";
+import { useIsLoadingContext, useCurrentPageNumberContext, useSetSelectedCategoryContext, useTableNameContext } from "../../providers/Provider";
 
 function Home() {
+	const isLoading = useIsLoadingContext();
+
+	const setTableName = useTableNameContext()[1];
+
 	const location = useLocation();
 	const [path, setPath] = useState("/");
 	useEffect(() => {
@@ -26,32 +30,40 @@ function Home() {
 			const newPath = pathPartsList[1];
 			setCurrentPageNumber(newPath);
 		}
-	}, [path, setCurrentPageNumber]);
 
-	const setSelectedCategory = useSelectedCategoryContext();
+		setTableName("products");
+	}, [path, setCurrentPageNumber, setTableName]);
+
+	const setSelectedCategory = useSetSelectedCategoryContext();
 	useEffect(() => {
 		const pathPartsList = path.split("/");
 
 		if (pathPartsList[1] === "categories") {
 			const category_name = pathPartsList[2].split("%")[0];
 			setSelectedCategory(category_name);
+			setTableName("products_by_category");
 		}
-	}, [path, setSelectedCategory]);
-
-	const setTotalPageNumbers = useTotalPageNumbersContext()[1];
+	}, [path, setSelectedCategory, setTableName]);
 
 	return (
-		<div className="Home">
-			<NavBar />
+		<>
+			{isLoading && (
+				<div className="Loading">
+					<i className="las la-spinner Rotate"></i>
+				</div>
+			)}
+			<div className="Home">
+				<NavBar />
 
-			<div className="Body">
-				<Menu />
-				<div className="MainContent">
-					<Products />
-					<PageCount />
+				<div className="Body">
+					<Menu />
+					<div className="MainContent">
+						<Products />
+						<PageCount />
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

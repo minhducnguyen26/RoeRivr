@@ -20,3 +20,21 @@ export const getRatingStar = (rating) => {
 
 	return image_url;
 };
+
+export const getSelectedCategoryPath = (category, splitBy) => {
+	let categoryPath;
+
+	if (splitBy.length === 1) {
+		categoryPath = category.split(splitBy[0]);
+	} else if (splitBy.length === 2) {
+		if (category.includes(splitBy[0])) {
+			categoryPath = category.split(splitBy[0]);
+		}
+
+		if (category.includes(splitBy[1])) {
+			categoryPath = category.split(splitBy[1]);
+		}
+	}
+
+	return categoryPath[0];
+};

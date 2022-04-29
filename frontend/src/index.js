@@ -16,10 +16,13 @@ root.render(
 				<Route path="/:page_number" element={<Home />} />
 				<Route path="/categories/:category" element={<Home />} />
 				<Route path="/categories/:category/:page_number" element={<Home />} />
+				<Route path="/rating/:rating_value" element={<Home />} />
+				<Route path="/price/:order" element={<Home />} />
 
 				<Route path="/product/:product_id" element={<Product />} />
 				<Route path="/:page_number/product/:product_id" element={<Product />} />
 				<Route path="/categories/:category/product/:product_id" element={<Product />} />
+				<Route path="/categories/:category/:page_number/product/:product_id" element={<Product />} />
 			</Routes>
 		</BrowserRouter>
 	</MainProvider>

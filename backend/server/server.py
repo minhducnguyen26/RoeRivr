@@ -34,11 +34,25 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.handle_GET_response(products)
 
     #! Page Number
-    def handle_get_page_numbers_for_current_data(self):
+    def handle_get_page_numbers_for_current_data(self, table_name):
         db = ProductsDB()
-        page_numbers = db.get_page_numbers()
+        page_numbers = db.get_page_numbers_for_current_data(table_name)
         self.handle_GET_response(page_numbers)
 
+    #! Sorted Product By Rating Number
+    def handle_get_sorted_product_by_rating_number_on_page(self, table_name, rating_number, page_number):
+        db = ProductsDB()
+        products = db.get_sorted_product_by_rating_number_on_page(table_name, rating_number, page_number)
+        self.handle_GET_response(products)
+
+
+    #! Sorted Product By Price Order
+    def handle_get_sorted_product_by_price_order_on_page(self, table_name, rating_number, page_number):
+        db = ProductsDB()
+        products = db.get_sorted_product_by_price_order_on_page(table_name, rating_number, page_number)
+        self.handle_GET_response(products)
+
+    #! Endpoints
     def do_GET(self):
         print("The request path is:", self.path)
 
@@ -80,8 +94,34 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
         #! Page Number
         elif route == "page_numbers":
-            # "/page_numbers"
-            self.handle_get_page_numbers_for_current_data()
+            # "/page_numbers/<table_name>"
+            if len(path_parts) == 3:
+                table_name = path_parts[2]
+                self.handle_get_page_numbers_for_current_data(table_name)
+
+        #! Sorted Product By Rating Number
+        elif route == "rating":
+            # "/rating/<table_name>/<rating_number>/<page_number>"
+            if len(path_parts) == 5:
+                table_name = path_parts[2]
+                rating_number = path_parts[3]
+                page_number = path_parts[4]
+
+                db = ProductsDB()
+                products = db.handle_get_sorted_product_by_rating_number_on_page(table_name, rating_number, page_number)
+                self.handle_GET_response(products)
+
+        #! Sorted Product By Price Order
+        elif route == "price":
+            # "/price/<table_name>/<rating_number>/<page_number>"
+            if len(path_parts) == 5:
+                table_name = path_parts[2]
+                rating_number = path_parts[3]
+                page_number = path_parts[4]
+
+                db = ProductsDB()
+                products = db.handle_get_sorted_product_by_price_order_on_page(table_name, rating_number, page_number)
+                self.handle_GET_response(products)
 
     def handle_GET_response(self, response):
         if response != None:

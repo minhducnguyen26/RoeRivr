@@ -2,11 +2,22 @@ import "./NavBar.css";
 
 import { Link } from "react-router-dom";
 import ArrowLogo from "../../assets/arrowLogo.png";
+import { useTableNameContext, useSetSelectedCategoryContext } from "../../providers/Provider";
 
 function NavBar() {
+	const setTableName = useTableNameContext()[1];
+	const setSelectedCategory = useSetSelectedCategoryContext();
+
 	return (
 		<div className="NavBar">
-			<Link to="/" className="Logo">
+			<Link
+				to="/"
+				className="Logo"
+				onClick={() => {
+					setTableName("products");
+					setSelectedCategory(" ");
+				}}
+			>
 				<div className="BrandName">RoeRivr</div>
 				<div className="ArrowLogo">
 					<img src={ArrowLogo} alt="Arrow Logo" />
