@@ -22,15 +22,11 @@
     margin-left: 10px;
 }
 
-.Category:hover, .Price:hover {
+.Category:hover, .Rating:hover, .Price:hover {
     color: var(--orange);
     cursor: pointer;
 }
 
-.Rating > img {
-    width: 100px;
-}
-
-.SelectedCategory {
+.SelectedCategory, .SelectedRatingOrder, .SelectedPriceOrder {
     color: var(--orange);
 }

@@ -2,14 +2,18 @@ import "./Product.css";
 
 import NavBar from "../../components/NavBar/NavBar";
 
-import { useProductInfosContext } from "../../providers/Provider";
+import { useProductInfosContext, useIsLoadingContext } from "../../providers/Provider";
 import { getDisplayPrice, getRatingStar } from "../../providers/utils";
 
 function ProductInfos() {
 	const productInfos = useProductInfosContext();
+	const isLoading = useIsLoadingContext();
+
+	if (productInfos === null) {
+		return null;
+	}
 
 	const displayPrice = getDisplayPrice(productInfos.price);
-
 	const productDescriptionsList = productInfos.about_product ? productInfos.about_product.split("| ") : [];
 
 	const verifyField = (field) => {
@@ -18,6 +22,12 @@ function ProductInfos() {
 
 	return (
 		<div className="Product">
+			{isLoading && (
+				<div className="Loading">
+					<i className="las la-spinner Rotate"></i>
+				</div>
+			)}
+
 			<NavBar />
 
 			<div className="ProductBodyWrapper">

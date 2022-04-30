@@ -17,9 +17,9 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         products = db.get_all_products_on_page(page_number)
         self.handle_GET_response(products)
 
-    def handle_get_product_by_id(self, product_id):
+    def handle_get_products_by_id(self, product_id):
         db = ProductsDB()
-        product = db.get_product_by_id(product_id)
+        product = db.get_products_by_id(product_id)
         self.handle_GET_response(product)
 
     #! Categories
@@ -39,17 +39,16 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         page_numbers = db.get_page_numbers_for_current_data(table_name)
         self.handle_GET_response(page_numbers)
 
-    #! Sorted Product By Rating Number
-    def handle_get_sorted_product_by_rating_number_on_page(self, table_name, rating_number, page_number):
+    #! Rating
+    def handle_get_all_products_by_rating_order_on_page(self, table_name, rating_order, page_number):
         db = ProductsDB()
-        products = db.get_sorted_product_by_rating_number_on_page(table_name, rating_number, page_number)
+        products = db.get_all_products_by_rating_order_on_page(table_name, rating_order, page_number)
         self.handle_GET_response(products)
 
-
-    #! Sorted Product By Price Order
-    def handle_get_sorted_product_by_price_order_on_page(self, table_name, rating_number, page_number):
+    #! Price Order
+    def handle_get_all_products_by_price_order_on_page(self, table_name, price_order, page_number):
         db = ProductsDB()
-        products = db.get_sorted_product_by_price_order_on_page(table_name, rating_number, page_number)
+        products = db.get_all_products_by_price_order_on_page(table_name, price_order, page_number)
         self.handle_GET_response(products)
 
     #! Endpoints
@@ -73,7 +72,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             # "/products/<page_number>/<product_id>"
             elif len(path_parts) == 4:
                 product_id = path_parts[3]
-                self.handle_get_product_by_id(product_id)
+                self.handle_get_products_by_id(product_id)
 
         #! Categories
         elif route == "categories":
@@ -99,29 +98,23 @@ class MyRequestHandler(BaseHTTPRequestHandler):
                 table_name = path_parts[2]
                 self.handle_get_page_numbers_for_current_data(table_name)
 
-        #! Sorted Product By Rating Number
+        #! Rating
         elif route == "rating":
-            # "/rating/<table_name>/<rating_number>/<page_number>"
+            # "/rating/<table_name>/<rating_order>/<page_number>"
             if len(path_parts) == 5:
                 table_name = path_parts[2]
-                rating_number = path_parts[3]
+                rating_order = path_parts[3]
                 page_number = path_parts[4]
+                self.handle_get_all_products_by_rating_order_on_page(table_name, rating_order, page_number)
 
-                db = ProductsDB()
-                products = db.handle_get_sorted_product_by_rating_number_on_page(table_name, rating_number, page_number)
-                self.handle_GET_response(products)
-
-        #! Sorted Product By Price Order
+        #! Price Order
         elif route == "price":
-            # "/price/<table_name>/<rating_number>/<page_number>"
+            # "/price/<table_name>/<price_order>/<page_number>"
             if len(path_parts) == 5:
                 table_name = path_parts[2]
-                rating_number = path_parts[3]
+                price_order = path_parts[3]
                 page_number = path_parts[4]
-
-                db = ProductsDB()
-                products = db.handle_get_sorted_product_by_price_order_on_page(table_name, rating_number, page_number)
-                self.handle_GET_response(products)
+                self.handle_get_all_products_by_price_order_on_page(table_name, price_order, page_number)
 
     def handle_GET_response(self, response):
         if response != None:

@@ -9,8 +9,7 @@ function Products() {
 	const AllProductsContext = useAllProductsContext();
 	const data = AllProductsContext;
 
-	const productIdContext = useProductIdContext();
-	const setProductId = productIdContext;
+	const setProductId = useProductIdContext();
 
 	return (
 		<div className="Products">

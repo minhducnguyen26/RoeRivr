@@ -12,13 +12,29 @@ root.render(
 	<MainProvider>
 		<BrowserRouter>
 			<Routes>
+				{/* Products */}
 				<Route path="/" element={<Home />} />
 				<Route path="/:page_number" element={<Home />} />
+
+				{/* Products By Category */}
 				<Route path="/categories/:category" element={<Home />} />
 				<Route path="/categories/:category/:page_number" element={<Home />} />
-				<Route path="/rating/:rating_value" element={<Home />} />
-				<Route path="/price/:order" element={<Home />} />
 
+				{/* Products By Rating Order */}
+				<Route path="/rating/:rating_order" element={<Home />} />
+				<Route path="/products/rating/:rating_order" element={<Home />} />
+				<Route path="/products/:page_number/rating/:rating_order" element={<Home />} />
+				<Route path="/categories/:category/rating/:rating_order" element={<Home />} />
+				<Route path="/categories/:category/:page_number/rating/:rating_order" element={<Home />} />
+
+				{/* Products By Price Order */}
+				<Route path="/price/:price_order" element={<Home />} />
+				<Route path="/products/price/:price_order" element={<Home />} />
+				<Route path="/products/:page_number/price/:price_order" element={<Home />} />
+				<Route path="/categories/:category/price/:price_order" element={<Home />} />
+				<Route path="/categories/:category/:page_number/price/:price_order" element={<Home />} />
+
+				{/* Product Detail */}
 				<Route path="/product/:product_id" element={<Product />} />
 				<Route path="/:page_number/product/:product_id" element={<Product />} />
 				<Route path="/categories/:category/product/:product_id" element={<Product />} />

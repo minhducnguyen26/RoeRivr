@@ -52,9 +52,9 @@ export function useTableNameContext() {
 	return useContext(TableNameContext);
 }
 
-const RatingNumberContext = React.createContext({});
-export function useRatingNumberContext() {
-	return useContext(RatingNumberContext);
+const RatingOrderContext = React.createContext({});
+export function useRatingOrderContext() {
+	return useContext(RatingOrderContext);
 }
 
 const PriceOrderContext = React.createContext({});
@@ -67,25 +67,29 @@ export function MainProvider({ children }) {
 	const [tableName, setTableName] = useState("products");
 
 	//! Categories Filter
-	const [selectedCategory, setSelectedCategory] = useState(" ");
+	const [selectedCategory, setSelectedCategory] = useState("");
 
 	useEffect(() => {
-		setIsLoading(true);
-		fetch(`${path}/categories/${selectedCategory}`)
-			.then((res) => res.json())
-			.then((res) => {
-				if (tableName === "products_by_category") {
-					setData(res);
-				}
+		if (selectedCategory !== "") {
+			setIsLoading(true);
+			fetch(`${path}/categories/${selectedCategory}`)
+				.then((res) => res.json())
+				.then((res) => {
+					if (tableName === "products_by_category") {
+						setData(res);
+					}
 
-				// Update the total page numbers
-				fetch(`${path}/page_numbers/${tableName}`)
-					.then((res) => res.json())
-					.then((res) => {
-						setTotalPageNumbers(res);
-						setIsLoading(false);
-					});
-			});
+					// Update the total page numbers
+					fetch(`${path}/page_numbers/${tableName}`)
+						.then((res) => res.json())
+						.then((res) => {
+							setTotalPageNumbers(res);
+							setIsLoading(false);
+						});
+
+					setIsLoading(false);
+				});
+		}
 	}, [selectedCategory, tableName]);
 
 	//! All Products
@@ -93,9 +97,8 @@ export function MainProvider({ children }) {
 	const [currentPageNumber, setCurrentPageNumber] = useState(1);
 
 	useEffect(() => {
-		setIsLoading(true);
-
 		if (tableName === "products") {
+			setIsLoading(true);
 			fetch(`${path}/products/${currentPageNumber}`)
 				.then((res) => res.json())
 				.then((res) => {
@@ -103,6 +106,7 @@ export function MainProvider({ children }) {
 					setIsLoading(false);
 				});
 		} else if (tableName === "products_by_category") {
+			setIsLoading(true);
 			fetch(`${path}/categories/${selectedCategory}/${currentPageNumber}`)
 				.then((res) => res.json())
 				.then((res) => {
@@ -113,31 +117,20 @@ export function MainProvider({ children }) {
 	}, [currentPageNumber, tableName, selectedCategory]);
 
 	//! Single Product
-	const [productId, setProductId] = useState("4c69b61db1fc16e7013b43fc926e502d");
+	const [productId, setProductId] = useState("");
 	const [productInfos, setProductInfos] = useState(null);
 
 	useEffect(() => {
-		setIsLoading(true);
-		fetch(`${path}/products/${currentPageNumber}/${productId}`)
-			.then((res) => res.json())
-			.then((res) => {
-				setProductInfos(res);
-				setIsLoading(false);
-			});
+		if (productId !== "") {
+			setIsLoading(true);
+			fetch(`${path}/products/${currentPageNumber}/${productId}`)
+				.then((res) => res.json())
+				.then((res) => {
+					setProductInfos(res);
+					setIsLoading(false);
+				});
+		}
 	}, [currentPageNumber, productId]);
-
-	//! Categories
-	const [categories, setCategories] = useState([]);
-
-	useEffect(() => {
-		setIsLoading(true);
-		fetch(`${path}/categories`)
-			.then((res) => res.json())
-			.then((res) => {
-				setCategories(res);
-				setIsLoading(false);
-			});
-	}, []);
 
 	//! Page Numbers
 	const [totalPageNumbers, setTotalPageNumbers] = useState(0);
@@ -152,30 +145,47 @@ export function MainProvider({ children }) {
 			});
 	}, [tableName]);
 
-	//! Sorted Product By Rating Number
-	const [ratingNumber, setRatingNumber] = useState(0);
+	//! Categories
+	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
 		setIsLoading(true);
-		fetch(`${path}/rating/${tableName}/${ratingNumber}/${currentPageNumber}`)
+		fetch(`${path}/categories`)
 			.then((res) => res.json())
 			.then((res) => {
-				setData(res);
+				setCategories(res);
 				setIsLoading(false);
 			});
-	}, [ratingNumber, currentPageNumber, tableName]);
+	}, []);
 
-	//! Sorted Product By Price Order
-	const [priceOrder, setPriceOrder] = useState(0);
+	//! Rating Order
+	const [ratingOrder, setRatingOrder] = useState("");
 
 	useEffect(() => {
-		setIsLoading(true);
-		fetch(`${path}/price/${tableName}/${priceOrder}/${currentPageNumber}`)
-			.then((res) => res.json())
-			.then((res) => {
-				setData(res);
-				setIsLoading(false);
-			});
+		if (ratingOrder !== "") {
+			setIsLoading(true);
+			fetch(`${path}/rating/${tableName}/${ratingOrder}/${currentPageNumber}`)
+				.then((res) => res.json())
+				.then((res) => {
+					setData(res);
+					setIsLoading(false);
+				});
+		}
+	}, [ratingOrder, currentPageNumber, tableName]);
+
+	//! Price Order
+	const [priceOrder, setPriceOrder] = useState("");
+
+	useEffect(() => {
+		if (priceOrder !== "") {
+			setIsLoading(true);
+			fetch(`${path}/price/${tableName}/${priceOrder}/${currentPageNumber}`)
+				.then((res) => res.json())
+				.then((res) => {
+					setData(res);
+					setIsLoading(false);
+				});
+		}
 	}, [priceOrder, currentPageNumber, tableName]);
 
 	return (
@@ -189,9 +199,9 @@ export function MainProvider({ children }) {
 									<SelectedCategoryContext.Provider value={selectedCategory}>
 										<TotalPageNumbersContext.Provider value={[totalPageNumbers, setTotalPageNumbers]}>
 											<TableNameContext.Provider value={[tableName, setTableName]}>
-												<RatingNumberContext.Provider value={setRatingNumber}>
-													<PriceOrderContext.Provider value={setPriceOrder}>{children}</PriceOrderContext.Provider>
-												</RatingNumberContext.Provider>
+												<RatingOrderContext.Provider value={[ratingOrder, setRatingOrder]}>
+													<PriceOrderContext.Provider value={[priceOrder, setPriceOrder]}>{children}</PriceOrderContext.Provider>
+												</RatingOrderContext.Provider>
 											</TableNameContext.Provider>
 										</TotalPageNumbersContext.Provider>
 									</SelectedCategoryContext.Provider>

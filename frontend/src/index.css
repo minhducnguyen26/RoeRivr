@@ -14,3 +14,29 @@
   --blue: #146eb4;
   --white: #f2f2f2;
 }
+
+.Loading {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: var(--white);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  color: var(--orange);
+}
+
+.Rotate {
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: Rotate(0deg);
+  }
+  to {
+    transform: Rotate(359deg);
+  }
+}

@@ -1,8 +1,15 @@
 import "./Menu.css";
 
 import { Link } from "react-router-dom";
-import { useCategoryContext, useTableNameContext, useSetSelectedCategoryContext, useSelectedCategoryContext, useCurrentPageNumberContext } from "../../providers/Provider";
-import { ratings } from "../../assets/RatingData";
+import {
+	useCategoryContext,
+	useTableNameContext,
+	useSetSelectedCategoryContext,
+	useSelectedCategoryContext,
+	useCurrentPageNumberContext,
+	useRatingOrderContext,
+	usePriceOrderContext,
+} from "../../providers/Provider";
 import { getSelectedCategoryPath } from "../../providers/utils";
 
 function Menu() {
@@ -25,6 +32,7 @@ function Menu() {
 		}
 	});
 
+	const currentPageNumber = useCurrentPageNumberContext()[0];
 	const setCurrentPageNumber = useCurrentPageNumberContext()[1];
 
 	const setTableName = useTableNameContext()[1];
@@ -35,19 +43,47 @@ function Menu() {
 		setSelectedCategory(category_name);
 		setTableName(`products_by_category`);
 		setCurrentPageNumber(1);
+		setRatingOrder("");
 	};
 
 	const selectedCategory = useSelectedCategoryContext();
+
+	const [ratingOrder, setRatingOrder] = useRatingOrderContext();
+	const [priceOrder, setPriceOrder] = usePriceOrderContext();
+
+	const handleSelectedFilterOrder = (filterType, ratingOrder) => {
+		let path = "/";
+
+		if (selectedCategory !== "") {
+			path += `categories/${selectedCategory}/`;
+		}
+
+		if (currentPageNumber !== 1) {
+			path += `${currentPageNumber}/`;
+		}
+
+		return (path += `${filterType}/${ratingOrder}`);
+	};
+
+	const handleSetRatingOrder = (ratingOrder) => {
+		setRatingOrder(ratingOrder);
+		setPriceOrder("");
+	};
+
+	const handleSetPriceOrder = (priceOrder) => {
+		setPriceOrder(priceOrder);
+		setRatingOrder("");
+	};
 
 	return (
 		<div className="Menu">
 			<div className="SectionWrapper">
 				<div className="SectionTitle">Categories:</div>
-				{categoriesList.map((category) => (
+				{categoriesList.map((category, index) => (
 					<Link
 						to={`/categories/${getSelectedCategoryPath(category, [" ", ","])}`}
 						className={selectedCategory === getSelectedCategoryPath(category, [" ", ","]) ? "SelectedCategory Category" : "Category"}
-						key={category}
+						key={index}
 						onClick={() => handleSelectCategory(category)}
 					>
 						{category}
@@ -56,24 +92,21 @@ function Menu() {
 			</div>
 
 			<div className="SectionWrapper">
-				<div className="SectionTitle">Ratings:</div>
-				{ratings.map((rating) => (
-					<>
-						{rating.value % 1 === 0 && (
-							<Link to={`/rating/${rating.value}`} className="Rating" key={rating.id}>
-								<img src={rating.image_url} alt={rating.value} />
-							</Link>
-						)}
-					</>
-				))}
+				<div className="SectionTitle">Rating:</div>
+				<Link to={handleSelectedFilterOrder("rating", "ASC")} className={ratingOrder === "ASC" ? "SelectedRatingOrder Rating" : "Rating"} onClick={() => handleSetRatingOrder("ASC")}>
+					Low to High
+				</Link>
+				<Link to={handleSelectedFilterOrder("rating", "DESC")} className={ratingOrder === "DESC" ? "SelectedRatingOrder Rating" : "Rating"} onClick={() => handleSetRatingOrder("DESC")}>
+					High to Low
+				</Link>
 			</div>
 
 			<div className="SectionWrapper">
 				<div className="SectionTitle">Price:</div>
-				<Link to={`/price/desc`} className="Price">
+				<Link to={handleSelectedFilterOrder("price", "ASC")} className={priceOrder === "ASC" ? "SelectedPriceOrder Price" : "Price"} onClick={() => handleSetPriceOrder("ASC")}>
 					Low to High
 				</Link>
-				<Link to={`/price/asc`} className="Price">
+				<Link to={handleSelectedFilterOrder("price", "DESC")} className={priceOrder === "DESC" ? "SelectedPriceOrder Price" : "Price"} onClick={() => handleSetPriceOrder("DESC")}>
 					High to Low
 				</Link>
 			</div>
