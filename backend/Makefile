@@ -9,7 +9,7 @@ new_products_db:
 sqlite3_products_db:
 	sqlite3 ./database/products/products.db
 
-transfer_producst_db:
+transfer_products_db:
 	python3 ./database/products/transfer_data.py
 
 #! Sellers Database

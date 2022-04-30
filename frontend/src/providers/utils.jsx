@@ -43,3 +43,7 @@ export const getSelectedCategoryPath = (category, splitBy) => {
 
 	return categoryPath[0];
 };
+
+export const verifyField = (field) => {
+	return field !== undefined ? field : "No Data";
+};

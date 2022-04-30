@@ -64,9 +64,9 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         seller = db.get_seller_by_id(seller_id)
         self.handle_GET_response(seller)
 
-    def handle_get_products_by_seller_id_from_product_id(self, product_id, seller_id):
+    def handle_get_products_by_seller_id(self, seller_id):
         db = ProductsDB()
-        products = db.get_products_by_seller_id_from_product_id(product_id, seller_id)
+        products = db.get_products_by_seller_id(seller_id)
         self.handle_GET_response(products)
 
     #! Endpoints
@@ -149,11 +149,10 @@ class MyRequestHandler(BaseHTTPRequestHandler):
                 seller_id = path_parts[2]
                 self.handle_get_seller_by_id(seller_id)
 
-            # "/sellers/<seller_id>/<product_id>"
+            # "/sellers/<seller_id>/products"
             elif len(path_parts) == 4:
                 seller_id = path_parts[2]
-                product_id = path_parts[3]
-                self.handle_get_products_by_seller_id_from_product_id(product_id, seller_id)
+                self.handle_get_products_by_seller_id(seller_id)
 
     def handle_GET_response(self, response):
         if response != None:

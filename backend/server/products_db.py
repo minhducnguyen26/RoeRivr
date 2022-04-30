@@ -78,9 +78,30 @@ class ProductsDB:
             product = self.cursor.fetchone()
             return product
 
-    def get_products_by_seller_id_from_product_id(self, product_id, seller_id):
-        #TODO: Implement this function
-        return
+    def get_products_by_seller_id(self, seller_id):
+        data = [seller_id]
+
+        self.cursor.execute('''
+            SELECT * FROM products
+            JOIN (
+                SELECT
+                    p1.product_id AS product_details_product_id,
+                    p2.product_id AS best_sellers_details_product_id
+                FROM 
+                    product_details AS p1
+                JOIN 
+                    best_sellers_details AS p2
+                    ON p1.seller_id = p2.seller_id
+                WHERE p1.seller_id = ?
+            )
+            ON products.product_id = product_details_product_id
+            OR products.product_id = best_sellers_details_product_id
+            GROUP BY products.product_id;
+        ''', data)
+
+        products = self.cursor.fetchall()
+        
+        return products
 
     #! Categories
     def create_products_by_category_table(self, category):

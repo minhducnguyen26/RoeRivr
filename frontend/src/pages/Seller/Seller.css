@@ -1,0 +1,15 @@
+.SellerInfos {
+    border-right: 1px solid var(--grey);
+}
+
+.SellerDetailField {
+    display: grid;
+    grid-template-columns: 5fr 5fr;
+    margin: 10px;
+}
+
+.SellerDetailValue {
+    font-size: 16px;
+    margin: 5px 10px;
+    color: var(--blue);
+}

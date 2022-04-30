@@ -4,7 +4,7 @@ import NavBar from "../../components/NavBar/NavBar";
 
 import { Link } from "react-router-dom";
 import { useProductInfosContext, useIsLoadingContext, useSellerIdContext } from "../../providers/Provider";
-import { getDisplayPrice, getRatingStar } from "../../providers/utils";
+import { getDisplayPrice, getRatingStar, verifyField } from "../../providers/utils";
 
 function ProductInfos() {
 	const productInfos = useProductInfosContext();
@@ -17,10 +17,6 @@ function ProductInfos() {
 
 	const displayPrice = getDisplayPrice(productInfos.price);
 	const productDescriptionsList = productInfos.about_product ? productInfos.about_product.split("| ") : [];
-
-	const verifyField = (field) => {
-		return field !== undefined ? field : "No Data";
-	};
 
 	return (
 		<div className="Product">

@@ -241,7 +241,7 @@ export function MainProvider({ children }) {
 
 			// Get all products by seller
 			setIsLoading(true);
-			fetch(`${path}/sellers/${sellerId}/${productId}`)
+			fetch(`${path}/sellers/${sellerId}/products`)
 				.then((res) => res.json())
 				.then((res) => {
 					setProductsBySeller(res);
