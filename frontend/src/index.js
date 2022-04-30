@@ -49,6 +49,7 @@ root.render(
 				<Route path="/price/:price_order/:page_number/product/:product_id" element={<Product />} />
 				<Route path="/search/:search_value/product/:product_id" element={<Product />} />
 				<Route path="/search/:search_value/:page_number/product/:product_id" element={<Product />} />
+				<Route path="/seller/:seller_id/product/:product_id" element={<Product />} />
 
 				{/* Seller Detail */}
 				<Route path="/seller/:seller_id" element={<Seller />} />

@@ -59,7 +59,7 @@ function NavBar() {
 	return (
 		<div className="NavBar">
 			<Link to={"/"} className="Logo" onClick={handleGoToHomePage}>
-				<div className="BrandName">RoeRivr</div>
+				<div className="BrandName">RowRivr</div>
 				<div className="ArrowLogo">
 					<img src={ArrowLogo} alt="Arrow Logo" />
 				</div>
