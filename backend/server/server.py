@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
 import json
 from products_db import ProductsDB
+from sellers_db import SellersDB
 
 class MyRequestHandler(BaseHTTPRequestHandler):
     def handleNotFound(self):
@@ -55,6 +56,17 @@ class MyRequestHandler(BaseHTTPRequestHandler):
     def handle_get_all_products_by_search_on_page(self, product_name, page_number):
         db = ProductsDB()
         products = db.get_all_products_by_search_on_page(product_name, page_number)
+        self.handle_GET_response(products)
+
+    #! Sellers
+    def handle_get_seller_by_id(self, seller_id):
+        db = SellersDB()
+        seller = db.get_seller_by_id(seller_id)
+        self.handle_GET_response(seller)
+
+    def handle_get_products_by_seller_id_from_product_id(self, product_id, seller_id):
+        db = ProductsDB()
+        products = db.get_products_by_seller_id_from_product_id(product_id, seller_id)
         self.handle_GET_response(products)
 
     #! Endpoints
@@ -129,6 +141,19 @@ class MyRequestHandler(BaseHTTPRequestHandler):
                 product_name = path_parts[2]
                 page_number = path_parts[3]
                 self.handle_get_all_products_by_search_on_page(product_name, page_number)
+
+        #! Sellers
+        elif route == "sellers":
+            # "/sellers/<seller_id>"
+            if len(path_parts) == 3:
+                seller_id = path_parts[2]
+                self.handle_get_seller_by_id(seller_id)
+
+            # "/sellers/<seller_id>/<product_id>"
+            elif len(path_parts) == 4:
+                seller_id = path_parts[2]
+                product_id = path_parts[3]
+                self.handle_get_products_by_seller_id_from_product_id(product_id, seller_id)
 
     def handle_GET_response(self, response):
         if response != None:

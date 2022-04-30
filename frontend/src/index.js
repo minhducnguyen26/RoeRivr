@@ -6,6 +6,7 @@ import "./index.css";
 import { MainProvider } from "./providers/Provider";
 import Home from "./pages/Home/Home";
 import Product from "./pages/Product/Product";
+import Seller from "./pages/Seller/Seller";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -48,6 +49,9 @@ root.render(
 				<Route path="/price/:price_order/:page_number/product/:product_id" element={<Product />} />
 				<Route path="/search/:search_value/product/:product_id" element={<Product />} />
 				<Route path="/search/:search_value/:page_number/product/:product_id" element={<Product />} />
+
+				{/* Seller Detail */}
+				<Route path="/seller/:seller_id" element={<Seller />} />
 			</Routes>
 		</BrowserRouter>
 	</MainProvider>

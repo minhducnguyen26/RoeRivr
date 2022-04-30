@@ -2,12 +2,14 @@ import "./Product.css";
 
 import NavBar from "../../components/NavBar/NavBar";
 
-import { useProductInfosContext, useIsLoadingContext } from "../../providers/Provider";
+import { Link } from "react-router-dom";
+import { useProductInfosContext, useIsLoadingContext, useSellerIdContext } from "../../providers/Provider";
 import { getDisplayPrice, getRatingStar } from "../../providers/utils";
 
 function ProductInfos() {
 	const productInfos = useProductInfosContext();
 	const isLoading = useIsLoadingContext();
+	const setSellerId = useSellerIdContext();
 
 	if (productInfos === null) {
 		return null;
@@ -65,7 +67,10 @@ function ProductInfos() {
 
 						<div className="DetailField">
 							<div className="DetailLabel">Seller ID:</div>
-							<div className="DetailValue">{verifyField(productInfos.seller_id)}</div>
+							<Link to={`/seller/${productInfos.seller_id}`} className="DetailValue SellerId" onClick={() => setSellerId(productInfos.seller_id)}>
+								{verifyField(productInfos.seller_id)}
+								<i className="las la-external-link-alt"></i>
+							</Link>
 						</div>
 
 						<div className="DetailField">

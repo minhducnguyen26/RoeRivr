@@ -9,6 +9,7 @@ import {
 	useCurrentPageNumberContext,
 	useRatingOrderContext,
 	usePriceOrderContext,
+	useIsLoadingContext,
 } from "../../providers/Provider";
 import { getSelectedCategoryPath } from "../../providers/utils";
 
@@ -75,8 +76,16 @@ function Menu() {
 		setRatingOrder("");
 	};
 
+	const isLoading = useIsLoadingContext();
+
 	return (
 		<div className="Menu">
+			{isLoading && (
+				<div className="Loading">
+					<i className="las la-spinner Rotate"></i>
+				</div>
+			)}
+
 			<div className="SectionWrapper">
 				<div className="SectionTitle">Categories:</div>
 				{categoriesList.map((category, index) => (

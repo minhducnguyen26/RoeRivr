@@ -52,6 +52,7 @@ function NavBar() {
 		} else {
 			setTableName("products_by_search");
 			setSearchProduct(searchValue);
+			setSelectedCategory("");
 		}
 	};
 

@@ -67,6 +67,21 @@ export function useSearchProductContext() {
 	return useContext(SearchProductContext);
 }
 
+const SellerIdContext = React.createContext({});
+export function useSellerIdContext() {
+	return useContext(SellerIdContext);
+}
+
+const SellerInfosContext = React.createContext({});
+export function useSellerInfosContext() {
+	return useContext(SellerInfosContext);
+}
+
+const ProductsBySellerContext = React.createContext({});
+export function useProductsBySellerContext() {
+	return useContext(ProductsBySellerContext);
+}
+
 export function MainProvider({ children }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [tableName, setTableName] = useState("products");
@@ -208,6 +223,33 @@ export function MainProvider({ children }) {
 		}
 	}, [searchProduct, currentPageNumber, tableName]);
 
+	//! Seller
+	const [sellerId, setSellerId] = useState("");
+	const [sellerInfos, setSellerInfos] = useState(null);
+	const [productsBySeller, setProductsBySeller] = useState([]);
+
+	useEffect(() => {
+		if (sellerId !== "") {
+			// Get the seller infos
+			setIsLoading(true);
+			fetch(`${path}/sellers/${sellerId}`)
+				.then((res) => res.json())
+				.then((res) => {
+					setSellerInfos(res);
+					setIsLoading(false);
+				});
+
+			// Get all products by seller
+			setIsLoading(true);
+			fetch(`${path}/sellers/${sellerId}/${productId}`)
+				.then((res) => res.json())
+				.then((res) => {
+					setProductsBySeller(res);
+					setIsLoading(false);
+				});
+		}
+	}, [sellerId, productId]);
+
 	return (
 		<IsLoadingContext.Provider value={isLoading}>
 			<AllProductsContext.Provider value={data}>
@@ -221,7 +263,13 @@ export function MainProvider({ children }) {
 											<TableNameContext.Provider value={[tableName, setTableName]}>
 												<RatingOrderContext.Provider value={[ratingOrder, setRatingOrder]}>
 													<PriceOrderContext.Provider value={[priceOrder, setPriceOrder]}>
-														<SearchProductContext.Provider value={setSearchProduct}>{children}</SearchProductContext.Provider>
+														<SearchProductContext.Provider value={setSearchProduct}>
+															<SellerIdContext.Provider value={setSellerId}>
+																<SellerInfosContext.Provider value={sellerInfos}>
+																	<ProductsBySellerContext.Provider value={productsBySeller}>{children}</ProductsBySellerContext.Provider>
+																</SellerInfosContext.Provider>
+															</SellerIdContext.Provider>
+														</SearchProductContext.Provider>
 													</PriceOrderContext.Provider>
 												</RatingOrderContext.Provider>
 											</TableNameContext.Provider>

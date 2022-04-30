@@ -1,13 +1,8 @@
 import sqlite3
+from utils import dict_factory
 
 path = "./database/products/"
 database = path + "products.db"
-
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
 
 class ProductsDB:
     def __init__(self):
@@ -36,6 +31,15 @@ class ProductsDB:
         self.page_numbers = self.update_page_numbers(table_name)
         return self.page_numbers
 
+    def check_is_best_seller(self, product_id):
+        data = [product_id]
+        self.cursor.execute('''
+            SELECT * FROM products
+            WHERE product_id = ?
+        ''', data)
+        is_best_seller = self.cursor.fetchone()["is_best_seller"]
+        return is_best_seller
+
     #! Products
     def get_all_products_on_page(self, page_number):
         limit, offset = self.get_limit_and_offset(page_number)
@@ -53,12 +57,7 @@ class ProductsDB:
     def get_product_by_id(self, product_id):
         data = [product_id]
 
-        # Check if product is a best seller
-        self.cursor.execute('''
-            SELECT * FROM products
-            WHERE product_id = ?
-        ''', data)
-        is_best_seller = self.cursor.fetchone()["is_best_seller"]
+        is_best_seller = self.check_is_best_seller(product_id)
 
         if is_best_seller == 0:
             self.cursor.execute('''
@@ -78,6 +77,10 @@ class ProductsDB:
             ''', data)
             product = self.cursor.fetchone()
             return product
+
+    def get_products_by_seller_id_from_product_id(self, product_id, seller_id):
+        #TODO: Implement this function
+        return
 
     #! Categories
     def create_products_by_category_table(self, category):
