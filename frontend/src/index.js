@@ -34,11 +34,20 @@ root.render(
 				<Route path="/categories/:category/price/:price_order" element={<Home />} />
 				<Route path="/categories/:category/:page_number/price/:price_order" element={<Home />} />
 
+				{/* Products By Search Name */}
+				<Route path="/search/:search_value" element={<Home />} />
+
 				{/* Product Detail */}
 				<Route path="/product/:product_id" element={<Product />} />
 				<Route path="/:page_number/product/:product_id" element={<Product />} />
 				<Route path="/categories/:category/product/:product_id" element={<Product />} />
 				<Route path="/categories/:category/:page_number/product/:product_id" element={<Product />} />
+				<Route path="/rating/:rating_order/product/:product_id" element={<Product />} />
+				<Route path="/rating/:rating_order/:page_number/product/:product_id" element={<Product />} />
+				<Route path="/price/:price_order/product/:product_id" element={<Product />} />
+				<Route path="/price/:price_order/:page_number/product/:product_id" element={<Product />} />
+				<Route path="/search/:search_value/product/:product_id" element={<Product />} />
+				<Route path="/search/:search_value/:page_number/product/:product_id" element={<Product />} />
 			</Routes>
 		</BrowserRouter>
 	</MainProvider>

@@ -62,6 +62,11 @@ export function usePriceOrderContext() {
 	return useContext(PriceOrderContext);
 }
 
+const SearchProductContext = React.createContext({});
+export function useSearchProductContext() {
+	return useContext(SearchProductContext);
+}
+
 export function MainProvider({ children }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [tableName, setTableName] = useState("products");
@@ -188,6 +193,21 @@ export function MainProvider({ children }) {
 		}
 	}, [priceOrder, currentPageNumber, tableName]);
 
+	//! Search
+	const [searchProduct, setSearchProduct] = useState("");
+
+	useEffect(() => {
+		if (searchProduct !== "") {
+			setIsLoading(true);
+			fetch(`${path}/search/${searchProduct}/${currentPageNumber}`)
+				.then((res) => res.json())
+				.then((res) => {
+					setData(res);
+					setIsLoading(false);
+				});
+		}
+	}, [searchProduct, currentPageNumber, tableName]);
+
 	return (
 		<IsLoadingContext.Provider value={isLoading}>
 			<AllProductsContext.Provider value={data}>
@@ -200,7 +220,9 @@ export function MainProvider({ children }) {
 										<TotalPageNumbersContext.Provider value={[totalPageNumbers, setTotalPageNumbers]}>
 											<TableNameContext.Provider value={[tableName, setTableName]}>
 												<RatingOrderContext.Provider value={[ratingOrder, setRatingOrder]}>
-													<PriceOrderContext.Provider value={[priceOrder, setPriceOrder]}>{children}</PriceOrderContext.Provider>
+													<PriceOrderContext.Provider value={[priceOrder, setPriceOrder]}>
+														<SearchProductContext.Provider value={setSearchProduct}>{children}</SearchProductContext.Provider>
+													</PriceOrderContext.Provider>
 												</RatingOrderContext.Provider>
 											</TableNameContext.Provider>
 										</TotalPageNumbersContext.Provider>

@@ -50,7 +50,7 @@ class ProductsDB:
         products = self.cursor.fetchall()
         return products
 
-    def get_products_by_id(self, product_id):
+    def get_product_by_id(self, product_id):
         data = [product_id]
 
         # Check if product is a best seller
@@ -174,6 +174,36 @@ class ProductsDB:
 
         self.cursor.execute('''
             SELECT * FROM products_by_price_order
+            LIMIT ?
+            OFFSET ?
+        ''', data)
+
+        products = self.cursor.fetchall()
+        return products
+
+    #! Search
+    def create_products_by_search_table(self, product_name):
+        # Drop old products_by_search if exists
+        self.cursor.execute('''
+            DROP TABLE IF EXISTS products_by_search
+        ''')
+
+        # Create new products_by_search for the new search
+        self.cursor.execute('''
+            CREATE TABLE products_by_search AS
+            SELECT *
+            FROM products
+            WHERE name LIKE '%{}%'
+        '''.format(product_name))
+
+    def get_all_products_by_search_on_page(self, product_name, page_number):
+        self.create_products_by_search_table(product_name)
+
+        limit, offset = self.get_limit_and_offset(page_number)
+        data = [limit, offset]
+
+        self.cursor.execute('''
+            SELECT * FROM products_by_search
             LIMIT ?
             OFFSET ?
         ''', data)

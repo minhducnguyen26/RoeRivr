@@ -26,13 +26,25 @@
 
 .SearchBar {
     margin-left: 25px;
+    display: flex;
+    align-items: center;
+    margin-top: -5px;
+    width: 92%;
 }
 
 .SearchBar > input {
     width: 95%;
     height: 35px;
-    margin-top: -5px;
     padding: 10px;
+}
+
+.SearchNameButton > i {
+    background: var(--orange);
+    color: var(--grey);
+    transform: scaleX(-1);
+    font-size: 22px;
+    padding: 6px 10px;
+    border-radius: 3px;
 }
 
 .UserAccount {

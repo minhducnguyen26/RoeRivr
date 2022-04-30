@@ -17,9 +17,9 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         products = db.get_all_products_on_page(page_number)
         self.handle_GET_response(products)
 
-    def handle_get_products_by_id(self, product_id):
+    def handle_get_product_by_id(self, product_id):
         db = ProductsDB()
-        product = db.get_products_by_id(product_id)
+        product = db.get_product_by_id(product_id)
         self.handle_GET_response(product)
 
     #! Categories
@@ -51,6 +51,12 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         products = db.get_all_products_by_price_order_on_page(table_name, price_order, page_number)
         self.handle_GET_response(products)
 
+    #! Search
+    def handle_get_all_products_by_search_on_page(self, product_name, page_number):
+        db = ProductsDB()
+        products = db.get_all_products_by_search_on_page(product_name, page_number)
+        self.handle_GET_response(products)
+
     #! Endpoints
     def do_GET(self):
         print("The request path is:", self.path)
@@ -72,7 +78,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             # "/products/<page_number>/<product_id>"
             elif len(path_parts) == 4:
                 product_id = path_parts[3]
-                self.handle_get_products_by_id(product_id)
+                self.handle_get_product_by_id(product_id)
 
         #! Categories
         elif route == "categories":
@@ -115,6 +121,14 @@ class MyRequestHandler(BaseHTTPRequestHandler):
                 price_order = path_parts[3]
                 page_number = path_parts[4]
                 self.handle_get_all_products_by_price_order_on_page(table_name, price_order, page_number)
+
+        #! Search
+        elif route == "search":
+            # "/search/<product_name>/<page_number>"
+            if len(path_parts) == 4:
+                product_name = path_parts[2]
+                page_number = path_parts[3]
+                self.handle_get_all_products_by_search_on_page(product_name, page_number)
 
     def handle_GET_response(self, response):
         if response != None:
